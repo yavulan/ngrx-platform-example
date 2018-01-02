@@ -1,0 +1,81 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Camera"
+    },
+    {
+      "id": 2,
+      "name": "Plate"
+    },
+    {
+      "id": 3,
+      "name": "Hammer"
+    },
+    {
+      "id": 4,
+      "name": "Tea"
+    },
+    {
+      "id": 5,
+      "name": "Sugar"
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "name": "John",
+      "registered": 1514460010131,
+      "products": [
+        {
+          "id": 1,
+          "name": "Camera"
+        },
+        {
+          "id": 2,
+          "name": "Plate"
+        },
+        {
+          "id": 3,
+          "name": "Hammer"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Ann",
+      "registered": 1514467010131,
+      "products": [
+        {
+          "id": 4,
+          "name": "Tea"
+        },
+        {
+          "id": 5,
+          "name": "Sugar"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Jenny",
+      "registered": 1514448010131,
+      "products": []
+    },
+    {
+      "id": 4,
+      "name": "Alice",
+      "registered": 1514368010131,
+      "products": [
+        {
+          "id": 2,
+          "name": "Plate"
+        },
+        {
+          "id": 4,
+          "name": "Tea"
+        }
+      ]
+    }
+  ]
+}

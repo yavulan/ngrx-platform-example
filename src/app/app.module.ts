@@ -3,20 +3,27 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {StoreModule} from '@ngrx/store';
-import { reducers } from './reducers';
-import { ClockComponent } from './clock/clock.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
-import {ClockEffects} from './effects/clock';
+import {RouterModule, Routes} from '@angular/router';
+
+// routes
+export const ROUTES: Routes = [
+  {path: '', pathMatch: 'full', redirectTo: 'users'},
+  {
+    path: 'users',
+    loadChildren: './users/users.module#UsersModule',
+  },
+];
 
 @NgModule({
   declarations: [
     AppComponent,
-    ClockComponent
   ],
   imports: [
+    RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(
-      reducers,
+      {},
       // {
       //   initialState: {
       //     auth: {
@@ -26,9 +33,7 @@ import {ClockEffects} from './effects/clock';
       // }
       ),
 
-    EffectsModule.forRoot([
-      ClockEffects,
-    ]),
+    EffectsModule.forRoot([]),
     BrowserModule,
     StoreDevtoolsModule.instrument({maxAge: 25}),
   ],
