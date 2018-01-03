@@ -59,6 +59,7 @@ export class UserItemComponent implements OnInit {
   onRemove(event: Customer) {
     const remove = window.confirm('Are you sure?');
     if (remove) {
+      this.store.dispatch(new fromStore.RemoveCustomer(event));
     }
   }
 }

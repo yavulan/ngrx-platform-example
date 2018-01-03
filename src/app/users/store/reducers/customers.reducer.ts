@@ -62,6 +62,17 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
       };
     }
 
+    case fromCustomers.REMOVE_CUSTOMER_SUCCESS: {
+      const customer = action.payload;
+
+      // desctucturing to remove
+      const {[customer.id]: removed, ...enitites} = state.entities;
+
+      return {
+        ...state,
+        enitites
+      };
+    }
   }
   return state;
 }

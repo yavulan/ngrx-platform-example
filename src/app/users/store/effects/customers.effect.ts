@@ -45,4 +45,16 @@ export class CustomersEffects {
         );
       })
     );
+
+  @Effect()
+  removeCustomer$ = this.actions$.ofType(customerActions.REMOVE_CUSTOMER)
+    .pipe(
+      map((action: customerActions.RemoveCustomer) => action.payload),
+      switchMap((customer: Customer) => {
+        return this.customersService.removeCustomer(customer).pipe(
+          map(() => new customerActions.RemoveCustomerSuccess(customer)),
+          catchError(error => of(new customerActions.RemoveCustomerFail(error)))
+        );
+      })
+    );
 }
