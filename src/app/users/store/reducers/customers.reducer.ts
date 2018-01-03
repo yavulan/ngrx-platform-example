@@ -23,10 +23,12 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
     }
 
     case fromCustomers.LOAD_CUSTOMERS_SUCCESS: {
+      const data = action.payload;
       return {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
+        data,
       };
     }
 
@@ -41,3 +43,7 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
   }
   return state;
 }
+
+export const getCustomersLoading = (state: CustomerState) => state.loading;
+export const getCustomersLoaded = (state: CustomerState) => state.loaded;
+export const getCustomers = (state: CustomerState) => state.data;

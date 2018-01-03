@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
+import { reducers, effects } from './store';
+import { EffectsModule } from '@ngrx/effects';
 
 // components
 import * as fromComponents from './components';
@@ -22,7 +24,8 @@ import { UsersRoutingModule } from './users-routing.module';
     CommonModule,
     HttpClientModule,
     UsersRoutingModule,
-    StoreModule.forFeature('users', {}),
+    StoreModule.forFeature('users', reducers),
+    EffectsModule.forFeature(effects)
   ],
   providers: [...fromServices.services],
   declarations: [...fromContainers.containers, ...fromComponents.components],

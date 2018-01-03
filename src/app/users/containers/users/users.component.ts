@@ -1,6 +1,9 @@
 import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Customer} from '../../models/customer.model';
-import {CustomersService} from '../../services/customers.service';
+
+import * as fromStore from '../../store';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-users',
@@ -8,24 +11,23 @@ import {CustomersService} from '../../services/customers.service';
     <a routerLink="./new">
       New Customer
     </a>
-    <div *ngIf="!((customers)?.length)">
+    <div *ngIf="!((customers$ | async)?.length)">
       No pizzas, add one to get started.
     </div>
     <app-customer-item
-      *ngFor="let customer of (customers)"
+      *ngFor="let customer of (customers$ | async)"
       [customer]="customer">
     </app-customer-item>
   `,
 })
 export class UsersComponent implements OnInit {
-  customers: Customer[];
+  customers$: Observable<Customer[]>;
 
-  constructor(private customersService: CustomersService) {
+  constructor(private store: Store<fromStore.UsersState>) {
   }
 
   ngOnInit() {
-    this.customersService.getCustomers().subscribe(customers => {
-      this.customers = customers;
-    });
+    this.customers$ = this.store.select<Customer[]>(fromStore.getAllCustomers);
+    this.store.dispatch(new fromStore.LoadCustomers);
   }
 }
