@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Effect, Actions} from '@ngrx/effects';
 import * as customerActions from '../actions/customers.action';
-import {map, switchMap, catchError} from 'rxjs/operators';
+import {map, switchMap, catchError, tap} from 'rxjs/operators';
 import * as fromServices from '../../services';
+import * as fromRoot from '../../../store';
 import {of} from 'rxjs/observable/of';
 import {Customer} from '../../models/customer.model';
 
@@ -35,6 +36,15 @@ export class CustomersEffects {
     );
 
   @Effect()
+  createCustomerSuccess$ = this.actions$.ofType(customerActions.CREATE_CUSTOMER_SUCCESS)
+    .pipe(
+      map((action: customerActions.CreateCustomerSuccess) => action.payload),
+      map((customer: Customer) => new fromRoot.Go({
+        path: ['/users', customer.id]
+      })),
+    );
+
+  @Effect()
   updateCustomer$ = this.actions$.ofType(customerActions.UPDATE_CUSTOMER)
     .pipe(
       map((action: customerActions.UpdateCustomer) => action.payload),
@@ -56,5 +66,13 @@ export class CustomersEffects {
           catchError(error => of(new customerActions.RemoveCustomerFail(error)))
         );
       })
+    );
+
+  @Effect()
+  handleCustomerSuccess$ = this.actions$.ofType(customerActions.REMOVE_CUSTOMER_SUCCESS, customerActions.UPDATE_CUSTOMER_SUCCESS)
+    .pipe(
+      map((customer) => new fromRoot.Go({
+        path: ['/users']
+      })),
     );
 }

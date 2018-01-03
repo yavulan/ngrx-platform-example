@@ -6,7 +6,7 @@ import {StoreModule} from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {RouterModule, Routes} from '@angular/router';
-import {reducers, CustomSerializer} from './store';
+import {reducers, effects, CustomSerializer} from './store';
 import {StoreRouterConnectingModule, RouterStateSerializer} from '@ngrx/router-store';
 
 // routes
@@ -35,7 +35,7 @@ export const ROUTES: Routes = [
       // }
       ),
 
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(effects),
     StoreRouterConnectingModule,
     BrowserModule,
     StoreDevtoolsModule.instrument({maxAge: 25}),

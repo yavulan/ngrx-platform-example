@@ -66,11 +66,11 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
       const customer = action.payload;
 
       // desctucturing to remove
-      const {[customer.id]: removed, ...enitites} = state.entities;
+      const {[customer.id]: removed, ...entities} = state.entities;
 
       return {
         ...state,
-        enitites
+        entities
       };
     }
   }
