@@ -48,7 +48,8 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
       };
     }
 
-    case fromCustomers.CREATE_CUSTOMER_SUCCESS: {
+    case fromCustomers.CREATE_CUSTOMER_SUCCESS:
+    case fromCustomers.UPDATE_CUSTOMER_SUCCESS: {
       const customer = action.payload;
       const entities = {
         ...state.entities,

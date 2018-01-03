@@ -78,11 +78,19 @@
       ]
     },
     {
-      "name": "test",
+      "name": "test1",
       "products": [
         {
           "id": 1,
           "name": "Camera"
+        },
+        {
+          "id": 2,
+          "name": "Plate"
+        },
+        {
+          "id": 3,
+          "name": "Hammer"
         }
       ],
       "id": 5

@@ -53,6 +53,7 @@ export class UserItemComponent implements OnInit {
   }
 
   onUpdate(event: Customer) {
+    this.store.dispatch(new fromStore.UpdateCustomer(event));
   }
 
   onRemove(event: Customer) {

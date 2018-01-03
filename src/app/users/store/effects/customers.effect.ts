@@ -33,4 +33,16 @@ export class CustomersEffects {
         );
       })
     );
+
+  @Effect()
+  updateCustomer$ = this.actions$.ofType(customerActions.UPDATE_CUSTOMER)
+    .pipe(
+      map((action: customerActions.UpdateCustomer) => action.payload),
+      switchMap((customer: Customer) => {
+        return this.customersService.updateCustomer(customer).pipe(
+          map((customer: Customer) => new customerActions.UpdateCustomerSuccess(customer)),
+          catchError(error => of(new customerActions.UpdateCustomerFail(error)))
+        );
+      })
+    );
 }

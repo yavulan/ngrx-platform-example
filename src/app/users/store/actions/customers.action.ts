@@ -49,9 +49,28 @@ export class CreateCustomerSuccess implements Action {
   }
 }
 
+//
+export const UPDATE_CUSTOMER = '[Users] Update Customer';
+export const UPDATE_CUSTOMER_FAIL = '[Users] Update Customer Fail';
+export const UPDATE_CUSTOMER_SUCCESS = '[Users] Update Customer Success';
+
+export class UpdateCustomer implements Action {
+  readonly type = UPDATE_CUSTOMER;
+  constructor(public payload: Customer) {}
+}
+
+export class UpdateCustomerFail implements Action {
+  readonly type = UPDATE_CUSTOMER_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class UpdateCustomerSuccess implements Action {
+  readonly type = UPDATE_CUSTOMER_SUCCESS;
+  constructor(public payload: Customer) {}
+}
+
 export type CustomersAction
-  = LoadCustomers
-  | LoadCustomersFail
-  | LoadCustomersSuccess
+  = LoadCustomers | LoadCustomersFail | LoadCustomersSuccess
   | CreateCustomer | CreateCustomerFail | CreateCustomerSuccess
+  | UpdateCustomer | UpdateCustomerFail | UpdateCustomerSuccess
   ;
