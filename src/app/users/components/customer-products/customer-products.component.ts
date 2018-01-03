@@ -24,6 +24,7 @@ const PIZZA_TOPPINGS_ACCESSOR = {
       [class.active]="existsInProducts(product)">
       {{ product.name }}
     </div>`,
+  styles: [`.active {color: red;}`]
 })
 export class CustomerProductsComponent implements ControlValueAccessor {
   @Input() products: Product[] = [];

@@ -1,84 +1,62 @@
 import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import * as fromStore from '../../store';
 import {Customer} from '../../models/customer.model';
-import {ProductsService} from '../../services/products.service';
-import {CustomersService} from '../../services/customers.service';
 import {Product} from '../../models/product.model';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-user-item',
   template: `
     <app-customer-form
-      [customer]="customer"
-      [products]="products"
+      [customer]="customer$ | async"
+      [products]="products$ | async"
       (selected)="onSelect($event)"
       (create)="onCreate($event)"
       (update)="onUpdate($event)"
       (remove)="onRemove($event)">
       <app-customer-display
-        [customer]="visualise">
+        [customer]="visualise$ | async">
       </app-customer-display>
     </app-customer-form>
   `,
 })
 export class UserItemComponent implements OnInit {
-  customer: Customer;
-  visualise: Customer;
-  products: Product[];
+  customer$: Observable<Customer>;
+  products$: Observable<Product[]>;
+  visualise$: Observable<Customer>;
 
-  constructor(private customersService: CustomersService,
-              private productsService: ProductsService,
-              private route: ActivatedRoute,
-              private router: Router) {
+  constructor(private store: Store<fromStore.UsersState>) {
   }
 
   ngOnInit() {
-    this.customersService.getCustomers().subscribe(customers => {
-      const param = this.route.snapshot.params.id;
-      let pizza;
-      if (param === 'new') {
-        pizza = {};
-      } else {
-        pizza = customers.find(customer => customer.id === parseInt(param, 10));
-      }
-      this.customer = pizza;
-      this.productsService.getProducts().subscribe(toppings => {
-        this.products = toppings;
-        this.onSelect(toppings.map(topping => topping.id));
-      });
-    });
+    this.store.dispatch(new fromStore.LoadProducts());
+    this.customer$ = this.store.select(fromStore.getSelectedCustomer).pipe(
+      tap((customer: Customer = null) => {
+        // check if not creating a new customer.
+        const customerExists = Boolean(customer && customer.products);
+        const products = customerExists ? customer.products.map(product => product.id): [];
+        this.store.dispatch(new fromStore.VisualiseProducts(products));
+      })
+    );
+    this.products$ = this.store.select(fromStore.getAllProducts);
+    this.visualise$ = this.store.select(fromStore.getCustomerVisualised);
   }
 
   onSelect(event: number[]) {
-    let toppings;
-    if (this.products && this.products.length) {
-      toppings = event.map(id =>
-        this.products.find(topping => topping.id === id)
-      );
-    } else {
-      toppings = this.customer.products;
-    }
-    this.visualise = {...this.customer, toppings};
+    this.store.dispatch(new fromStore.VisualiseProducts(event));
   }
 
   onCreate(event: Customer) {
-    this.customersService.createCustomer(event).subscribe(customer => {
-      this.router.navigate([`/users/${customer.id}`]);
-    });
   }
 
   onUpdate(event: Customer) {
-    this.customersService.updateCustomer(event).subscribe(() => {
-      this.router.navigate([`/users`]);
-    });
   }
 
   onRemove(event: Customer) {
     const remove = window.confirm('Are you sure?');
     if (remove) {
-      this.customersService.removeCustomer(event).subscribe(() => {
-        this.router.navigate([`/users`]);
-      });
     }
   }
 }

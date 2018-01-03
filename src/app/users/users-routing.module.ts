@@ -11,11 +11,11 @@ export const ROUTES: Routes = [
     component: fromContainers.UsersComponent,
   },
   {
-    path: ':id',
+    path: 'new',
     component: fromContainers.UserItemComponent,
   },
   {
-    path: 'new',
+    path: ':customerId',
     component: fromContainers.UserItemComponent,
   },
 ];
