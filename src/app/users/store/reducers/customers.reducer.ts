@@ -2,13 +2,13 @@ import * as fromCustomers from '../actions/customers.action';
 import {Customer} from '../../models/customer.model';
 
 export interface CustomerState {
-  data: Customer[];
+  entities: {[id: number]: Customer};
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: CustomerState = {
-  data: [],
+  entities: {},
   loaded: false,
   loading: false
 };
@@ -23,12 +23,20 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
     }
 
     case fromCustomers.LOAD_CUSTOMERS_SUCCESS: {
-      const data = action.payload;
+      const customers = action.payload;
+
+      const entities = customers.reduce((allEntities: { [id: number]: Customer }, customer: Customer) => {
+        return {
+          ...allEntities,
+          [customer.id]: customer
+        };
+      }, {...state.entities});
+
       return {
         ...state,
         loading: false,
         loaded: true,
-        data,
+        entities,
       };
     }
 
@@ -44,6 +52,6 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
   return state;
 }
 
+export const getCustomersEntities = (state: CustomerState) => state.entities;
 export const getCustomersLoading = (state: CustomerState) => state.loading;
 export const getCustomersLoaded = (state: CustomerState) => state.loaded;
-export const getCustomers = (state: CustomerState) => state.data;

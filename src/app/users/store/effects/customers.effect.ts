@@ -4,6 +4,7 @@ import * as customerActions from '../actions/customers.action';
 import {map, switchMap, catchError} from 'rxjs/operators';
 import * as fromServices from '../../services';
 import {of} from 'rxjs/observable/of';
+import {Customer} from '../../models/customer.model';
 
 @Injectable()
 export class CustomersEffects {
@@ -15,7 +16,7 @@ export class CustomersEffects {
     .pipe(
       switchMap(() => {
         return this.customersService.getCustomers().pipe(
-          map(customers => new customerActions.LoadCustomersSuccess(customers)),
+          map((customers: Customer[]) => new customerActions.LoadCustomersSuccess(customers)),
           catchError(error => of(new customerActions.LoadCustomersFail(error)))
         );
       })
