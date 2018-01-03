@@ -6,6 +6,8 @@ import {StoreModule} from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {RouterModule, Routes} from '@angular/router';
+import {reducers, CustomSerializer} from './store';
+import {StoreRouterConnectingModule, RouterStateSerializer} from '@ngrx/router-store';
 
 // routes
 export const ROUTES: Routes = [
@@ -23,7 +25,7 @@ export const ROUTES: Routes = [
   imports: [
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(
-      {},
+      reducers,
       // {
       //   initialState: {
       //     auth: {
@@ -34,10 +36,11 @@ export const ROUTES: Routes = [
       ),
 
     EffectsModule.forRoot([]),
+    StoreRouterConnectingModule,
     BrowserModule,
     StoreDevtoolsModule.instrument({maxAge: 25}),
   ],
-  providers: [],
+  providers: [{provide: RouterStateSerializer, useClass: CustomSerializer}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
