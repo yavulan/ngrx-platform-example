@@ -59,6 +59,7 @@ import {Product} from '../../models/product.model';
       </button>
     </form>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerFormComponent implements OnChanges {
   exists = false;

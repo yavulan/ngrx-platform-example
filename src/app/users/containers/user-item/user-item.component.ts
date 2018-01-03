@@ -4,7 +4,7 @@ import {Customer} from '../../models/customer.model';
 import {Product} from '../../models/product.model';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
-import {tap} from "rxjs/operators";
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-item',
@@ -21,6 +21,7 @@ import {tap} from "rxjs/operators";
       </app-customer-display>
     </app-customer-form>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserItemComponent implements OnInit {
   customer$: Observable<Customer>;

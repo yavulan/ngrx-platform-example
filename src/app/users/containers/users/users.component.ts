@@ -19,6 +19,7 @@ import {Observable} from 'rxjs/Observable';
       [customer]="customer">
     </app-customer-item>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent implements OnInit {
   customers$: Observable<Customer[]>;
@@ -28,6 +29,6 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.customers$ = this.store.select<Customer[]>(fromStore.getAllCustomers);
-    this.store.dispatch(new fromStore.LoadCustomers);
+    // this.store.dispatch(new fromStore.LoadCustomers);
   }
 }
