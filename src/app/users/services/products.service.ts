@@ -15,7 +15,7 @@ export class ProductsService {
 
   getProducts(): Observable<Product[]> {
     return this.http
-      .get<Product[]>(`${ApiPath}/products`)
+      .get<Product[]>(`${ApiPath}products`)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 }

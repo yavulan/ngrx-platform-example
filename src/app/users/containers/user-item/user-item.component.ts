@@ -63,13 +63,13 @@ export class UserItemComponent implements OnInit {
 
   onCreate(event: Customer) {
     this.customersService.createCustomer(event).subscribe(customer => {
-      this.router.navigate([`/products/${customer.id}`]);
+      this.router.navigate([`/users/${customer.id}`]);
     });
   }
 
   onUpdate(event: Customer) {
     this.customersService.updateCustomer(event).subscribe(() => {
-      this.router.navigate([`/products`]);
+      this.router.navigate([`/users`]);
     });
   }
 
@@ -77,7 +77,7 @@ export class UserItemComponent implements OnInit {
     const remove = window.confirm('Are you sure?');
     if (remove) {
       this.customersService.removeCustomer(event).subscribe(() => {
-        this.router.navigate([`/products`]);
+        this.router.navigate([`/users`]);
       });
     }
   }

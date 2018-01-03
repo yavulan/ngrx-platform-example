@@ -73,7 +73,7 @@ export class CustomerFormComponent implements OnChanges {
 
   form = this.fb.group({
     name: ['', Validators.required],
-    toppings: [[]],
+    products: [[]],
   });
 
   constructor(private fb: FormBuilder) {

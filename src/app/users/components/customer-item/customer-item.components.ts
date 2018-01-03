@@ -10,7 +10,7 @@ import {
   selector: 'app-customer-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <a [routerLink]="['/products', customer.id]">
+    <a [routerLink]="['/users', customer.id]">
       <app-customer-display
         [customer]="customer">
       </app-customer-display>
