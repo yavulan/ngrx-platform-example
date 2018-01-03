@@ -49,6 +49,7 @@ export class UserItemComponent implements OnInit {
   }
 
   onCreate(event: Customer) {
+    this.store.dispatch(new fromStore.CreateCustomer(event));
   }
 
   onUpdate(event: Customer) {

@@ -76,6 +76,16 @@
           "name": "Tea"
         }
       ]
+    },
+    {
+      "name": "test",
+      "products": [
+        {
+          "id": 1,
+          "name": "Camera"
+        }
+      ],
+      "id": 5
     }
   ]
 }

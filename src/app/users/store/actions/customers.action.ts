@@ -12,16 +12,46 @@ export class LoadCustomers implements Action {
 export class LoadCustomersFail implements Action {
   readonly type = LOAD_CUSTOMERS_FAIL;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+  }
 }
 
 export class LoadCustomersSuccess implements Action {
   readonly type = LOAD_CUSTOMERS_SUCCESS;
 
-  constructor(public payload: Customer[]) {}
+  constructor(public payload: Customer[]) {
+  }
+}
+
+//
+export const CREATE_CUSTOMER = '[Users] Create Customer';
+export const CREATE_CUSTOMER_FAIL = '[Users] Create Customer Fail';
+export const CREATE_CUSTOMER_SUCCESS = '[Users] Create Customer Success';
+
+export class CreateCustomer implements Action {
+  readonly type = CREATE_CUSTOMER;
+
+  constructor(public payload: Customer) {
+  }
+}
+
+export class CreateCustomerFail implements Action {
+  readonly type = CREATE_CUSTOMER_FAIL;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CreateCustomerSuccess implements Action {
+  readonly type = CREATE_CUSTOMER_SUCCESS;
+
+  constructor(public payload: Customer) {
+  }
 }
 
 export type CustomersAction
   = LoadCustomers
   | LoadCustomersFail
-  | LoadCustomersSuccess;
+  | LoadCustomersSuccess
+  | CreateCustomer | CreateCustomerFail | CreateCustomerSuccess
+  ;

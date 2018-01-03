@@ -48,6 +48,19 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
       };
     }
 
+    case fromCustomers.CREATE_CUSTOMER_SUCCESS: {
+      const customer = action.payload;
+      const entities = {
+        ...state.entities,
+        [customer.id]: customer,
+      };
+
+      return {
+        ...state,
+        entities,
+      };
+    }
+
   }
   return state;
 }

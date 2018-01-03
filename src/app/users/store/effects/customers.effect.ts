@@ -21,4 +21,16 @@ export class CustomersEffects {
         );
       })
     );
+
+  @Effect()
+  createCustomer$ = this.actions$.ofType(customerActions.CREATE_CUSTOMER)
+    .pipe(
+      map((action: customerActions.CreateCustomer) => action.payload),
+      switchMap((customer: Customer) => {
+        return this.customersService.createCustomer(customer).pipe(
+          map((customer: Customer) => new customerActions.CreateCustomerSuccess(customer)),
+          catchError(error => of(new customerActions.CreateCustomerFail(error)))
+        );
+      })
+    );
 }
