@@ -1,8 +1,8 @@
-import * as fromCustomers from '../actions/customers.action';
-import {Customer} from '../../models/customer.model';
+import { CustomersAction, CustomersActionTypes } from '../actions/customers.action';
+import { Customer } from '../../models/customer.model';
 
 export interface CustomerState {
-  entities: {[id: number]: Customer};
+  entities: { [id: number]: Customer };
   loaded: boolean;
   loading: boolean;
 }
@@ -13,16 +13,16 @@ export const initialState: CustomerState = {
   loading: false
 };
 
-export function reducer(state = initialState, action: fromCustomers.CustomersAction): CustomerState {
+export function reducer(state = initialState, action: CustomersAction): CustomerState {
   switch (action.type) {
-    case fromCustomers.LOAD_CUSTOMERS: {
+    case CustomersActionTypes.LOAD_CUSTOMERS: {
       return {
         ...state,
         loading: true
       };
     }
 
-    case fromCustomers.LOAD_CUSTOMERS_SUCCESS: {
+    case CustomersActionTypes.LOAD_CUSTOMERS_SUCCESS: {
       const customers = action.payload;
 
       const entities = customers.reduce((allEntities: { [id: number]: Customer }, customer: Customer) => {
@@ -40,7 +40,7 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
       };
     }
 
-    case fromCustomers.LOAD_CUSTOMERS_FAIL: {
+    case CustomersActionTypes.LOAD_CUSTOMERS_FAIL: {
       return {
         ...state,
         loading: false,
@@ -48,8 +48,8 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
       };
     }
 
-    case fromCustomers.CREATE_CUSTOMER_SUCCESS:
-    case fromCustomers.UPDATE_CUSTOMER_SUCCESS: {
+    case CustomersActionTypes.CREATE_CUSTOMER_SUCCESS:
+    case CustomersActionTypes.UPDATE_CUSTOMER_SUCCESS: {
       const customer = action.payload;
       const entities = {
         ...state.entities,
@@ -62,7 +62,7 @@ export function reducer(state = initialState, action: fromCustomers.CustomersAct
       };
     }
 
-    case fromCustomers.REMOVE_CUSTOMER_SUCCESS: {
+    case CustomersActionTypes.REMOVE_CUSTOMER_SUCCESS: {
       const customer = action.payload;
 
       // desctucturing to remove

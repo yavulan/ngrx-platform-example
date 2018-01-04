@@ -1,9 +1,9 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {Customer} from '../../models/customer.model';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
+import { Customer } from '../../models/customer.model';
 import * as fromStore from '../../store';
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-users',
@@ -12,7 +12,7 @@ import {Observable} from 'rxjs/Observable';
       New Customer
     </a>
     <div *ngIf="!((customers$ | async)?.length)">
-      No pizzas, add one to get started.
+      No customers, add one to get started.
     </div>
     <app-customer-item
       *ngFor="let customer of (customers$ | async)"
@@ -29,6 +29,5 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.customers$ = this.store.select<Customer[]>(fromStore.getAllCustomers);
-    // this.store.dispatch(new fromStore.LoadCustomers);
   }
 }

@@ -1,15 +1,18 @@
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { filter, take, tap, map, switchMap } from 'rxjs/operators';
+
+import { Customer } from '../models/customer.model';
+
 import * as fromStore from '../store';
-import {Injectable} from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
-import {filter, take, tap, map, switchMap, catchError} from 'rxjs/operators';
-import {Customer} from '../models/customer.model';
+
 @Injectable()
 export class CustomerExistsGuard implements CanActivate {
   constructor(private store: Store<fromStore.UsersState>) {
-
   }
+
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.checkStore().pipe(
       switchMap(() => {
@@ -21,7 +24,8 @@ export class CustomerExistsGuard implements CanActivate {
 
   hasCustomer(id: number): Observable<boolean> {
     return this.store.select(fromStore.getCustomersEntities).pipe(
-      map((entities: {[key: number]: Customer}) => Boolean(entities[id])),
+      map((entities: { [key: number]: Customer }) => Boolean(entities[id])),
+      // Unsubscribe automatically.
       take(1)
     );
   }
@@ -33,9 +37,9 @@ export class CustomerExistsGuard implements CanActivate {
           this.store.dispatch(new fromStore.LoadCustomers());
         }
       }),
-      // Waits for loaded become true
+      // Waits for loaded become true.
       filter((loaded: boolean) => loaded),
-      // Unsubscribe automatically when loaded
+      // Unsubscribe automatically when loaded.
       take(1)
     );
   }

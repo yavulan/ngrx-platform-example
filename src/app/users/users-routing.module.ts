@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-// containers
+// Containers.
 import * as fromContainers from './containers';
 
-// guards
+// Guards.
 import * as fromGuards from './guards';
 
-// routes
+// Routes.
 export const ROUTES: Routes = [
   {
     path: '',

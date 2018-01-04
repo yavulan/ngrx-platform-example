@@ -4,10 +4,11 @@ import {
   forwardRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Product} from '../../models/product.model';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-const PIZZA_TOPPINGS_ACCESSOR = {
+import { Product } from '../../models/product.model';
+
+const CUSTOMER_PRODUCTS_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => CustomerProductsComponent),
   multi: true,
@@ -15,8 +16,6 @@ const PIZZA_TOPPINGS_ACCESSOR = {
 
 @Component({
   selector: 'app-customer-products',
-  providers: [PIZZA_TOPPINGS_ACCESSOR],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
       *ngFor="let product of products;"
@@ -24,7 +23,9 @@ const PIZZA_TOPPINGS_ACCESSOR = {
       [class.active]="existsInProducts(product)">
       {{ product.name }}
     </div>`,
-  styles: [`.active {color: red;}`]
+  styles: [`.active {color: red;}`],
+  providers: [CUSTOMER_PRODUCTS_ACCESSOR],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerProductsComponent implements ControlValueAccessor {
   @Input() products: Product[] = [];

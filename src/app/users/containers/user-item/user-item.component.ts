@@ -1,10 +1,11 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators';
+
 import * as fromStore from '../../store';
-import {Customer} from '../../models/customer.model';
-import {Product} from '../../models/product.model';
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
-import {tap} from 'rxjs/operators';
+import { Customer } from '../../models/customer.model';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-user-item',
@@ -32,12 +33,11 @@ export class UserItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromStore.LoadProducts());
     this.customer$ = this.store.select(fromStore.getSelectedCustomer).pipe(
       tap((customer: Customer = null) => {
-        // check if not creating a new customer.
+        // Check if not creating a new customer.
         const customerExists = Boolean(customer && customer.products);
-        const products = customerExists ? customer.products.map(product => product.id): [];
+        const products = customerExists ? customer.products.map(product => product.id) : [];
         this.store.dispatch(new fromStore.VisualiseProducts(products));
       })
     );

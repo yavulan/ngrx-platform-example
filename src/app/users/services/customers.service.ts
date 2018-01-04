@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import 'rxjs/add/observable/throw';
 
-import {Customer} from '../models/customer.model';
+import { Customer } from '../models/customer.model';
 
 const ApiPath = `http://localhost:3000/`;
 

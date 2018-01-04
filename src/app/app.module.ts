@@ -1,15 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { EffectsModule } from '@ngrx/effects';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 
 import { AppComponent } from './app.component';
-import {StoreModule} from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import {EffectsModule} from '@ngrx/effects';
-import {RouterModule, Routes} from '@angular/router';
-import {reducers, effects, CustomSerializer} from './store';
-import {StoreRouterConnectingModule, RouterStateSerializer} from '@ngrx/router-store';
+import { CustomSerializer, effects, reducers } from './store';
+import { environment } from '../environments/environment';
 
-// routes
+// Routes.
 export const ROUTES: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'users'},
   {
@@ -23,24 +24,17 @@ export const ROUTES: Routes = [
     AppComponent,
   ],
   imports: [
+    BrowserModule,
     RouterModule.forRoot(ROUTES),
-    StoreModule.forRoot(
-      reducers,
-      // {
-      //   initialState: {
-      //     auth: {
-      //       loggedIn: true
-      //     }
-      //   }
-      // }
-      ),
-
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
     StoreRouterConnectingModule,
-    BrowserModule,
-    StoreDevtoolsModule.instrument({maxAge: 25}),
+    environment.production ? [] : StoreDevtoolsModule.instrument(),
   ],
-  providers: [{provide: RouterStateSerializer, useClass: CustomSerializer}],
+  providers: [
+    {provide: RouterStateSerializer, useClass: CustomSerializer},
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

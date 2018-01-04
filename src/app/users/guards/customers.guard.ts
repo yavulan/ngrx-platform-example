@@ -1,17 +1,15 @@
-
+import { Injectable } from '@angular/core';
+import { CanActivate } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 import * as fromStore from '../store';
-import {Injectable} from '@angular/core';
-import {CanActivate} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import {Store} from '@ngrx/store';
-import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
-import {of} from 'rxjs/observable/of';
 
 @Injectable()
 export class CustomersGuard implements CanActivate {
   constructor(private store: Store<fromStore.UsersState>) {
-
   }
 
   canActivate(): Observable<boolean> {
@@ -34,5 +32,4 @@ export class CustomersGuard implements CanActivate {
       take(1)
     );
   }
-
 }

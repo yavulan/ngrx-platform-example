@@ -1,10 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
-import { reducers, effects } from './store';
 import { EffectsModule } from '@ngrx/effects';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+
+import { reducers, effects } from './store';
+import { UsersRoutingModule } from './users-routing.module';
 
 // components
 import * as fromComponents from './components';
@@ -18,17 +20,14 @@ import * as fromGuards from './guards';
 // services
 import * as fromServices from './services';
 
-import { UsersRoutingModule } from './users-routing.module';
-
 @NgModule({
   imports: [
-    ReactiveFormsModule,
-    UsersRoutingModule,
     CommonModule,
     HttpClientModule,
-    UsersRoutingModule,
+    ReactiveFormsModule,
     StoreModule.forFeature('users', reducers),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    UsersRoutingModule,
   ],
   providers: [...fromServices.services, ...fromGuards.guards],
   declarations: [...fromContainers.containers, ...fromComponents.components],

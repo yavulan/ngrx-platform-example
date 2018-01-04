@@ -1,9 +1,10 @@
-import {createSelector} from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
+
+import { Customer } from '../../models/customer.model';
+import * as fromRoot from '../../../store';
 import * as fromFeature from '../reducers';
 import * as fromCustomers from '../reducers/customers.reducer';
-import * as fromRoot from '../../../store';
 import * as fromProducts from './products.selectors';
-import {Customer} from '../../models/customer.model';
 
 export const getCustomersState = createSelector(fromFeature.getUsersState, (state: fromFeature.UsersState) => state.customers);
 

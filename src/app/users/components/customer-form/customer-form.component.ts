@@ -10,14 +10,13 @@ import {
 import {
   FormControl,
   FormGroup,
-  FormArray,
   FormBuilder,
   Validators,
 } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
-import {map} from 'rxjs/operators';
-import {Customer} from '../../models/customer.model';
-import {Product} from '../../models/product.model';
+import { Customer } from '../../models/customer.model';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-customer-form',
@@ -32,6 +31,7 @@ import {Product} from '../../models/product.model';
       </label>
 
       <ng-content></ng-content>
+
       <label>
         <h4>Select products</h4>
       </label>

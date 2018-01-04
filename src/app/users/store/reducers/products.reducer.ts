@@ -1,5 +1,5 @@
-import * as fromProducts from '../actions/products.action';
-import {Product} from '../../models/product.model';
+import { ProductsAction, ProductsActionType } from '../actions/products.action';
+import { Product } from '../../models/product.model';
 
 export interface ProductsState {
   entities: { [id: number]: Product };
@@ -16,22 +16,22 @@ export const initialState: ProductsState = {
 };
 
 export function reducer(state: ProductsState = initialState,
-                        action: fromProducts.ProductsAction): ProductsState {
+                        action: ProductsAction): ProductsState {
   switch (action.type) {
-    case fromProducts.LOAD_PRODUCTS: {
+    case ProductsActionType.LOAD_PRODUCTS: {
       return {
         ...state,
         loading: true,
       };
     }
-    case fromProducts.LOAD_PRODUCTS_FAIL: {
+    case ProductsActionType.LOAD_PRODUCTS_FAIL: {
       return {
         ...state,
         loading: false,
         loaded: false,
       };
     }
-    case fromProducts.LOAD_PRODUCTS_SUCCESS: {
+    case ProductsActionType.LOAD_PRODUCTS_SUCCESS: {
       const products = action.payload;
 
       const entities = products.reduce((allEntities: { [id: number]: Product }, product: Product) => {
@@ -48,7 +48,7 @@ export function reducer(state: ProductsState = initialState,
         entities
       };
     }
-    case fromProducts.VISUALISE_PRODUCTS: {
+    case ProductsActionType.VISUALISE_PRODUCTS: {
       const selectedProducts = action.payload;
 
       return {
