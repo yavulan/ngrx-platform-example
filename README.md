@@ -9,3 +9,7 @@ Run `ng serve` for a dev server. Run `npm run db` to start a db server. Navigate
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+
+## Troubleshooting
+
+In case of error `Cannot find module 'webpack/lib/node/NodeTemplatePlugin'` on serve try `npm link webpack`.
