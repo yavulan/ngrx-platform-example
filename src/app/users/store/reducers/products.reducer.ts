@@ -56,9 +56,11 @@ export function reducer(state: ProductsState = initialState,
         selectedProducts,
       };
     }
-  }
 
-  return state;
+    default: {
+      return state;
+    }
+  }
 }
 
 export const getProductsEntities = (state: ProductsState) => state.entities;

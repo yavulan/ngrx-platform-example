@@ -38,3 +38,6 @@ export const ROUTES: Routes = [
 })
 export class AppModule {
 }
+
+// TODO: metareducers
+// TODO: @ngrx/entity

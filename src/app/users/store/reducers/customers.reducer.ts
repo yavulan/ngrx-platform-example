@@ -10,7 +10,7 @@ export interface CustomerState {
 export const initialState: CustomerState = {
   entities: {},
   loaded: false,
-  loading: false
+  loading: false,
 };
 
 export function reducer(state = initialState, action: CustomersAction): CustomerState {
@@ -73,10 +73,13 @@ export function reducer(state = initialState, action: CustomersAction): Customer
         entities
       };
     }
+
+    default: {
+      return state;
+    }
   }
-  return state;
 }
 
 export const getCustomersEntities = (state: CustomerState) => state.entities;
-export const getCustomersLoading = (state: CustomerState) => state.loading;
 export const getCustomersLoaded = (state: CustomerState) => state.loaded;
+export const getCustomersLoading = (state: CustomerState) => state.loading;
