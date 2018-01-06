@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
@@ -20,15 +20,16 @@ export class ProductsGuard implements CanActivate {
   }
 
   checkStore(): Observable<boolean> {
-    return this.store.select(fromStore.selectProductsLoaded).pipe(
+    return this.store.pipe(
+      select(fromStore.selectProductsLoaded),
       tap(loaded => {
         if (!loaded) {
           this.store.dispatch(new fromStore.LoadProducts());
         }
       }),
-      // Waits for loaded become true
+      // Waits for loaded become true.
       filter((loaded: boolean) => loaded),
-      // Unsubscribe automatically when loaded
+      // Unsubscribe automatically when loaded.
       take(1)
     );
   }

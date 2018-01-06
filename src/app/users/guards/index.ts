@@ -1,6 +1,6 @@
-import {CustomersGuard} from './customers.guard';
-import {ProductsGuard} from './products.guard';
-import {CustomerExistsGuard} from './customer-exists.guard';
+import { CustomersGuard } from './customers.guard';
+import { ProductsGuard } from './products.guard';
+import { CustomerExistsGuard } from './customer-exists.guard';
 
 export const guards: any[] = [CustomersGuard, CustomerExistsGuard, ProductsGuard];
 

@@ -1,24 +1,18 @@
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+
 import { CustomersAction, CustomersActionTypes } from '../actions';
 import { Customer } from '../../models/customer.model';
 
-// 1
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-
-// 2
 export const customerAdapter: EntityAdapter<Customer> = createEntityAdapter<Customer>();
 
-// export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
-//   sortComparer: sortByName,
-// });
-
 export interface CustomerState extends EntityState<Customer> {
-  // additional entities state properties
+  // Additional entities state properties.
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: CustomerState = customerAdapter.getInitialState({
-  // additional entity state properties
+  // Additional entity state properties.
   loaded: false,
   loading: false,
 });

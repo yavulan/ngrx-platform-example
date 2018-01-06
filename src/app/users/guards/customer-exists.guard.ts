@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { filter, take, tap, map, switchMap } from 'rxjs/operators';
 
@@ -23,7 +23,8 @@ export class CustomerExistsGuard implements CanActivate {
   }
 
   hasCustomer(id: number): Observable<boolean> {
-    return this.store.select(fromStore.selectCustomersEntities).pipe(
+    return this.store.pipe(
+      select(fromStore.selectCustomersEntities),
       map((entities: { [key: number]: Customer }) => Boolean(entities[id])),
       // Unsubscribe automatically.
       take(1)
@@ -31,7 +32,8 @@ export class CustomerExistsGuard implements CanActivate {
   }
 
   checkStore(): Observable<boolean> {
-    return this.store.select(fromStore.selectCustomersLoaded).pipe(
+    return this.store.pipe(
+      select(fromStore.selectCustomersLoaded),
       tap(loaded => {
         if (!loaded) {
           this.store.dispatch(new fromStore.LoadCustomers());
