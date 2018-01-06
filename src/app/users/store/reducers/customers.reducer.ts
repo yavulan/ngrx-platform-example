@@ -1,77 +1,63 @@
-import { CustomersAction, CustomersActionTypes } from '../actions/customers.action';
+import { CustomersAction, CustomersActionTypes } from '../actions';
 import { Customer } from '../../models/customer.model';
 
-export interface CustomerState {
-  entities: { [id: number]: Customer };
+// 1
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+
+// 2
+export const customerAdapter: EntityAdapter<Customer> = createEntityAdapter<Customer>();
+
+// export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
+//   sortComparer: sortByName,
+// });
+
+export interface CustomerState extends EntityState<Customer> {
+  // additional entities state properties
   loaded: boolean;
   loading: boolean;
 }
 
-export const initialState: CustomerState = {
-  entities: {},
+export const initialState: CustomerState = customerAdapter.getInitialState({
+  // additional entity state properties
   loaded: false,
   loading: false,
-};
+});
 
 export function reducer(state = initialState, action: CustomersAction): CustomerState {
   switch (action.type) {
     case CustomersActionTypes.LOAD_CUSTOMERS: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
 
     case CustomersActionTypes.LOAD_CUSTOMERS_SUCCESS: {
-      const customers = action.payload;
-
-      const entities = customers.reduce((allEntities: { [id: number]: Customer }, customer: Customer) => {
-        return {
-          ...allEntities,
-          [customer.id]: customer
-        };
-      }, {...state.entities});
-
-      return {
+      return customerAdapter.addMany(action.payload.customers, {
         ...state,
-        loading: false,
         loaded: true,
-        entities,
-      };
+        loading: false,
+      });
     }
 
     case CustomersActionTypes.LOAD_CUSTOMERS_FAIL: {
       return {
         ...state,
+        loaded: false,
         loading: false,
-        loaded: false
       };
     }
 
-    case CustomersActionTypes.CREATE_CUSTOMER_SUCCESS:
-    case CustomersActionTypes.UPDATE_CUSTOMER_SUCCESS: {
-      const customer = action.payload;
-      const entities = {
-        ...state.entities,
-        [customer.id]: customer,
-      };
+    case CustomersActionTypes.CREATE_CUSTOMER_SUCCESS: {
+      return customerAdapter.addOne(action.payload.customer, state);
+    }
 
-      return {
-        ...state,
-        entities,
-      };
+    case CustomersActionTypes.UPDATE_CUSTOMER_SUCCESS: {
+      return customerAdapter.updateOne(action.payload.customer, state);
     }
 
     case CustomersActionTypes.REMOVE_CUSTOMER_SUCCESS: {
-      const customer = action.payload;
-
-      // desctucturing to remove
-      const {[customer.id]: removed, ...entities} = state.entities;
-
-      return {
-        ...state,
-        entities
-      };
+      return customerAdapter.removeOne(action.payload.customer.id, state);
     }
 
     default: {
@@ -80,6 +66,5 @@ export function reducer(state = initialState, action: CustomersAction): Customer
   }
 }
 
-export const getCustomersEntities = (state: CustomerState) => state.entities;
-export const getCustomersLoaded = (state: CustomerState) => state.loaded;
-export const getCustomersLoading = (state: CustomerState) => state.loading;
+export const selectCustomersLoaded = (state: CustomerState) => state.loaded;
+export const selectCustomersLoading = (state: CustomerState) => state.loading;

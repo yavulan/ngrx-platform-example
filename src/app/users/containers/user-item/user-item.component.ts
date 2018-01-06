@@ -33,7 +33,7 @@ export class UserItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.customer$ = this.store.select(fromStore.getSelectedCustomer).pipe(
+    this.customer$ = this.store.select(fromStore.selectSelectedCustomer).pipe(
       tap((customer: Customer = null) => {
         // Check if not creating a new customer.
         const customerExists = Boolean(customer && customer.products);
@@ -41,26 +41,26 @@ export class UserItemComponent implements OnInit {
         this.store.dispatch(new fromStore.VisualiseProducts(products));
       })
     );
-    this.products$ = this.store.select(fromStore.getAllProducts);
-    this.visualise$ = this.store.select(fromStore.getCustomerVisualised);
+    this.products$ = this.store.select(fromStore.selectAllProducts);
+    this.visualise$ = this.store.select(fromStore.selectCustomerVisualised);
   }
 
   onSelect(event: number[]) {
     this.store.dispatch(new fromStore.VisualiseProducts(event));
   }
 
-  onCreate(event: Customer) {
-    this.store.dispatch(new fromStore.CreateCustomer(event));
+  onCreate(customer: Customer) {
+    this.store.dispatch(new fromStore.CreateCustomer({customer}));
   }
 
   onUpdate(event: Customer) {
-    this.store.dispatch(new fromStore.UpdateCustomer(event));
+    this.store.dispatch(new fromStore.UpdateCustomer({customer: {id: event.id, changes: event}}));
   }
 
-  onRemove(event: Customer) {
+  onRemove(customer: Customer) {
     const remove = window.confirm('Are you sure?');
     if (remove) {
-      this.store.dispatch(new fromStore.RemoveCustomer(event));
+      this.store.dispatch(new fromStore.RemoveCustomer({customer}));
     }
   }
 }

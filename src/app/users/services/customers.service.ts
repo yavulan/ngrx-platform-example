@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
+import { Update } from '@ngrx/entity';
 import 'rxjs/add/observable/throw';
 
 import { Customer } from '../models/customer.model';
@@ -24,9 +25,9 @@ export class CustomersService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  updateCustomer(payload: Customer): Observable<Customer> {
+  updateCustomer(payload: Update<Customer>): Observable<Customer> {
     return this.http
-      .put<Customer>(`${ApiPath}customers/${payload.id}`, payload)
+      .put<Customer>(`${ApiPath}customers/${payload.id}`, payload.changes)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 

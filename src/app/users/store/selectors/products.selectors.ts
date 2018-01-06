@@ -3,34 +3,29 @@ import { createSelector } from '@ngrx/store';
 import * as fromFeature from '../reducers';
 import * as fromProducts from '../reducers/products.reducer';
 
-export const getProductsState = createSelector(
-  fromFeature.getUsersState,
+export const selectProductsState = createSelector(
+  fromFeature.selectUsersState,
   (state: fromFeature.UsersState) => state.products
 );
 
-export const getProductsEntities = createSelector(
-  getProductsState,
-  fromProducts.getProductsEntities
+export const {
+  selectIds: selectProductsIds,
+  selectEntities: selectProductsEntities,
+  selectAll: selectAllProducts,
+  selectTotal: selectProductsTotal,
+} = fromProducts.productAdapter.getSelectors(selectProductsState);
+
+export const selectProductsLoaded = createSelector(
+  selectProductsState,
+  fromProducts.selectProductsLoaded
 );
 
-export const getAllProducts = createSelector(
-  getProductsEntities,
-  entities => {
-    return Object.keys(entities).map(id => entities[id]);
-  }
+export const selectProductsLoading = createSelector(
+  selectProductsState,
+  fromProducts.selectProductsLoading
 );
 
-export const getProductsLoaded = createSelector(
-  getProductsState,
-  fromProducts.getProductsLoaded
-);
-
-export const getProductsLoading = createSelector(
-  getProductsState,
-  fromProducts.getProductsLoading
-);
-
-export const getSelectedProducts = createSelector(
-  getProductsState,
-  fromProducts.getSelectedProducts
+export const selectSelectedProducts = createSelector(
+  selectProductsState,
+  fromProducts.selectSelectedProducts
 );

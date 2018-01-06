@@ -3,8 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { Product } from '../../models/product.model';
-import { ProductsActionType } from '../actions/products.action';
+import { ProductsActionType } from '../actions';
 import * as productsAction from '../actions/products.action';
 import * as fromServices from '../../services';
 
@@ -19,7 +18,7 @@ export class ProductsEffects {
     ofType<productsAction.LoadProducts>(ProductsActionType.LOAD_PRODUCTS),
     switchMap(() => {
       return this.productsService.getProducts().pipe(
-        map((products: Product[]) => new productsAction.LoadProductsSuccess(products)),
+        map(products => new productsAction.LoadProductsSuccess({products})),
         catchError(error => of(new productsAction.LoadProductsFail(error)))
       );
     })

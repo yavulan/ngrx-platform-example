@@ -1,4 +1,6 @@
 import { Action } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
+
 import { Customer } from '../../models/customer.model';
 
 export enum CustomersActionTypes {
@@ -24,69 +26,71 @@ export class LoadCustomers implements Action {
 export class LoadCustomersFail implements Action {
   readonly type = CustomersActionTypes.LOAD_CUSTOMERS_FAIL;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class LoadCustomersSuccess implements Action {
   readonly type = CustomersActionTypes.LOAD_CUSTOMERS_SUCCESS;
 
-  constructor(public payload: Customer[]) {
-  }
+  constructor(public payload: { customers: Customer[] }) {}
 }
 
 // Create.
 export class CreateCustomer implements Action {
   readonly type = CustomersActionTypes.CREATE_CUSTOMER;
 
-  constructor(public payload: Customer) {
-  }
+  constructor(public payload: { customer: Customer }) {}
 }
 
 export class CreateCustomerFail implements Action {
   readonly type = CustomersActionTypes.CREATE_CUSTOMER_FAIL;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CreateCustomerSuccess implements Action {
   readonly type = CustomersActionTypes.CREATE_CUSTOMER_SUCCESS;
 
-  constructor(public payload: Customer) {
-  }
+  constructor(public payload: { customer: Customer }) {}
 }
 
 // Update.
 export class UpdateCustomer implements Action {
   readonly type = CustomersActionTypes.UPDATE_CUSTOMER;
-  constructor(public payload: Customer) {}
+
+  constructor(public payload: { customer: Update<Customer> }) {}
 }
 
 export class UpdateCustomerFail implements Action {
   readonly type = CustomersActionTypes.UPDATE_CUSTOMER_FAIL;
+
   constructor(public payload: any) {}
 }
 
 export class UpdateCustomerSuccess implements Action {
   readonly type = CustomersActionTypes.UPDATE_CUSTOMER_SUCCESS;
-  constructor(public payload: Customer) {}
+
+  constructor(public payload: { customer: Update<Customer> }) {}
 }
 
 // Remove.
 export class RemoveCustomer implements Action {
   readonly type = CustomersActionTypes.REMOVE_CUSTOMER;
-  constructor(public payload: Customer) {}
+
+  // constructor(public payload: { id: string }) {
+  constructor(public payload: { customer: Customer }) {}
 }
 
 export class RemoveCustomerFail implements Action {
   readonly type = CustomersActionTypes.REMOVE_CUSTOMER_FAIL;
+
   constructor(public payload: any) {}
 }
 
 export class RemoveCustomerSuccess implements Action {
   readonly type = CustomersActionTypes.REMOVE_CUSTOMER_SUCCESS;
-  constructor(public payload: Customer) {}
+
+  constructor(public payload: { customer: Customer }) {}
 }
 
 export type CustomersAction

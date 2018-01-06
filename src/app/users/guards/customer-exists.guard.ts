@@ -23,7 +23,7 @@ export class CustomerExistsGuard implements CanActivate {
   }
 
   hasCustomer(id: number): Observable<boolean> {
-    return this.store.select(fromStore.getCustomersEntities).pipe(
+    return this.store.select(fromStore.selectCustomersEntities).pipe(
       map((entities: { [key: number]: Customer }) => Boolean(entities[id])),
       // Unsubscribe automatically.
       take(1)
@@ -31,7 +31,7 @@ export class CustomerExistsGuard implements CanActivate {
   }
 
   checkStore(): Observable<boolean> {
-    return this.store.select(fromStore.getCustomersLoaded).pipe(
+    return this.store.select(fromStore.selectCustomersLoaded).pipe(
       tap(loaded => {
         if (!loaded) {
           this.store.dispatch(new fromStore.LoadCustomers());

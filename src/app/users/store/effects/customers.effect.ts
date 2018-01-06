@@ -6,7 +6,7 @@ import { of } from 'rxjs/observable/of';
 import * as fromRoot from '../../../store';
 import * as fromServices from '../../services';
 import * as customerActions from '../actions/customers.action';
-import { CustomersActionTypes } from '../actions/customers.action';
+import { CustomersActionTypes } from '../actions';
 
 @Injectable()
 export class CustomersEffects {
@@ -19,7 +19,7 @@ export class CustomersEffects {
     ofType<customerActions.LoadCustomers>(CustomersActionTypes.LOAD_CUSTOMERS),
     switchMap(() => {
       return this.customersService.getCustomers().pipe(
-        map(customers => new customerActions.LoadCustomersSuccess(customers)),
+        map(customers => new customerActions.LoadCustomersSuccess({customers})),
         catchError(error => of(new customerActions.LoadCustomersFail(error)))
       );
     })
@@ -29,9 +29,9 @@ export class CustomersEffects {
   createCustomer$ = this.actions$.pipe(
     ofType<customerActions.CreateCustomer>(CustomersActionTypes.CREATE_CUSTOMER),
     map(action => action.payload),
-    switchMap(customer => {
-      return this.customersService.createCustomer(customer).pipe(
-        map(createdCustomer => new customerActions.CreateCustomerSuccess(createdCustomer)),
+    switchMap(payload => {
+      return this.customersService.createCustomer(payload.customer).pipe(
+        map(customer => new customerActions.CreateCustomerSuccess({customer})),
         catchError(error => of(new customerActions.CreateCustomerFail(error)))
       );
     })
@@ -41,8 +41,8 @@ export class CustomersEffects {
   createCustomerSuccess$ = this.actions$.pipe(
     ofType<customerActions.CreateCustomerSuccess>(CustomersActionTypes.CREATE_CUSTOMER_SUCCESS),
     map(action => action.payload),
-    map(customer => new fromRoot.Go({
-      path: ['/users', customer.id]
+    map(payload => new fromRoot.Go({
+      path: ['/users', payload.customer.id]
     })),
   );
 
@@ -50,9 +50,9 @@ export class CustomersEffects {
   updateCustomer$ = this.actions$.pipe(
     ofType<customerActions.UpdateCustomer>(CustomersActionTypes.UPDATE_CUSTOMER),
     map(action => action.payload),
-    switchMap(customer => {
-      return this.customersService.updateCustomer(customer).pipe(
-        map(updatedCustomer => new customerActions.UpdateCustomerSuccess(updatedCustomer)),
+    switchMap(payload => {
+      return this.customersService.updateCustomer(payload.customer).pipe(
+        map(customer => new customerActions.UpdateCustomerSuccess({customer: {id: customer.id, changes: customer}})),
         catchError(error => of(new customerActions.UpdateCustomerFail(error)))
       );
     })
@@ -62,9 +62,9 @@ export class CustomersEffects {
   removeCustomer$ = this.actions$.pipe(
     ofType<customerActions.RemoveCustomer>(CustomersActionTypes.REMOVE_CUSTOMER),
     map(action => action.payload),
-    switchMap(customer => {
-      return this.customersService.removeCustomer(customer).pipe(
-        map(() => new customerActions.RemoveCustomerSuccess(customer)),
+    switchMap(payload => {
+      return this.customersService.removeCustomer(payload.customer).pipe(
+        map(() => new customerActions.RemoveCustomerSuccess({customer: payload.customer})),
         catchError(error => of(new customerActions.RemoveCustomerFail(error)))
       );
     })

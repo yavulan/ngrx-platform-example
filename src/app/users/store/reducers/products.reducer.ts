@@ -1,19 +1,21 @@
-import { ProductsAction, ProductsActionType } from '../actions/products.action';
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+
+import { ProductsAction, ProductsActionType } from '../actions';
 import { Product } from '../../models/product.model';
 
-export interface ProductsState {
-  entities: { [id: number]: Product };
+export const productAdapter: EntityAdapter<Product> = createEntityAdapter<Product>();
+
+export interface ProductsState extends EntityState<Product> {
   loaded: boolean;
   loading: boolean;
   selectedProducts: number[];
 }
 
-export const initialState: ProductsState = {
-  entities: {},
+export const initialState: ProductsState = productAdapter.getInitialState({
   loaded: false,
   loading: false,
   selectedProducts: [],
-};
+});
 
 export function reducer(state: ProductsState = initialState,
                         action: ProductsAction): ProductsState {
@@ -24,30 +26,23 @@ export function reducer(state: ProductsState = initialState,
         loading: true,
       };
     }
+
     case ProductsActionType.LOAD_PRODUCTS_FAIL: {
       return {
         ...state,
-        loading: false,
         loaded: false,
+        loading: false,
       };
     }
+
     case ProductsActionType.LOAD_PRODUCTS_SUCCESS: {
-      const products = action.payload;
-
-      const entities = products.reduce((allEntities: { [id: number]: Product }, product: Product) => {
-        return {
-          ...allEntities,
-          [product.id]: product
-        };
-      }, {...state.entities});
-
-      return {
+      return productAdapter.addMany(action.payload.products, {
         ...state,
         loaded: true,
         loading: false,
-        entities
-      };
+      });
     }
+
     case ProductsActionType.VISUALISE_PRODUCTS: {
       const selectedProducts = action.payload;
 
@@ -63,7 +58,6 @@ export function reducer(state: ProductsState = initialState,
   }
 }
 
-export const getProductsEntities = (state: ProductsState) => state.entities;
-export const getProductsLoaded = (state: ProductsState) => state.loaded;
-export const getProductsLoading = (state: ProductsState) => state.loading;
-export const getSelectedProducts = (state: ProductsState) => state.selectedProducts;
+export const selectProductsLoaded = (state: ProductsState) => state.loaded;
+export const selectProductsLoading = (state: ProductsState) => state.loading;
+export const selectSelectedProducts = (state: ProductsState) => state.selectedProducts;

@@ -20,7 +20,7 @@ export class CustomersGuard implements CanActivate {
   }
 
   checkStore(): Observable<boolean> {
-    return this.store.select(fromStore.getCustomersLoaded).pipe(
+    return this.store.select(fromStore.selectCustomersLoaded).pipe(
       tap(loaded => {
         if (!loaded) {
           this.store.dispatch(new fromStore.LoadCustomers());

@@ -28,6 +28,6 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.customers$ = this.store.select<Customer[]>(fromStore.getAllCustomers);
+    this.customers$ = this.store.select<Customer[]>(fromStore.selectAllCustomers);
   }
 }
